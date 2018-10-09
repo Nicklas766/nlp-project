@@ -3,59 +3,72 @@ import nltk
 from nltk.corpus import wordnet
 nltk.download('wordnet')
 nltk.download('averaged_perceptron_tagger')
+from nltk.wsd import lesk
+from nltk.stem import WordNetLemmatizer
+from nltk import pos_tag, word_tokenize
+from nltk.corpus import wordnet as wn
 
+class StackOverflow:
+    def penn_to_wn(self, tag):
+        if tag.startswith('J'):
+            return wn.ADJ
+        elif tag.startswith('N'):
+            return wn.NOUN
+        elif tag.startswith('R'):
+            return wn.ADV
+        elif tag.startswith('V'):
+            return wn.VERB
+        return None
 
+    def get_synset_tokens(self, tagged):
+        synsets = []
+        lemmatzr = WordNetLemmatizer()
+        for token in tagged:
+            wn_tag = self.penn_to_wn(token[1])
+            if not wn_tag:
+                continue
 
+            lemma = lemmatzr.lemmatize(token[0], pos=wn_tag)
+            synsets.append(WordData(token[0], wn.synsets(lemma, pos=wn_tag)[0]))
+
+        print(synsets)
+        return synsets
+
+class WordData:
+    def __init__(self, token, synset):
+        self.token = token
+        self.synset = synset
 
 class SynonymSentenceParser:
     """Changes all the words in a sentence synonyms and sorts them by percentage"""
     """Identifierar verb, adjektiv etc 'viktiga ord' och erbjuder synonymer"""
 
+    minAcceptableSimilarity = 0.7
     def __init__(self, text):
+        # Tokenize
         self.tokensArray = nltk.word_tokenize(text)
 
-    def breakAllSentences(text):
-        return nltk.sent_tokenize(text)
+        # Part of Speech
+        pos_tag = nltk.pos_tag(self.tokensArray)
 
-    def helloWorld(self):
-        return "hello world"
+        # Get synset from part of speech tags
+        self.synsets = StackOverflow().get_synset_tokens(pos_tag)
 
-    def CreateSentenceWithNewSynonyms(self):
-        for token in self.tokensArray:
-            try:
-                # Only takes snyonyms with the highest semantic similarity
-                highestSimilarity = 0
-                minAcceptableSimilarity = 0.6
-                originalWord = wordnet.synsets(token)[0];
-
-                print("WORD::::::::::::::::::", originalWord)
-                for synset in wordnet.synsets(token):
-                    if originalWord.wup_similarity(synset) > minAcceptableSimilarity and originalWord != synset:
-                        print(synset)
-            except:
-                print("none found")
+        # Test methods with print
+        print(self.get_similiar_synsets(self.synsets))
 
 
+    def is_synset_similar(self, synset1, synset2):
+        try:
+            return synset1.wup_similarity(synset2) > self.minAcceptableSimilarity
+        except:
+            return False
 
-parser = SynonymSentenceParser("Hi there, my name is Nicklas, I truly love computers and nature, I usually take some walks outside");
-parser.CreateSentenceWithNewSynonyms();
+    def get_similiar_synsets(self, synsets):
+        stuff = []
+        for word_data in synsets:
+            stuff.append(self.get_similiar_synset(word_data))
+        print(stuff)
 
-## sentence = """Hej är mitt namn. hej mitt är namn? ehj på dig."""
-
-# Sentence Segmentation: break the text apart into separate sentences
-#  sentenceSegmentation = nltk.sent_tokenize(sentence);
-
-# Word Tokenization: break each sentence into separate words or tokens
-## tokens = nltk.word_tokenize(sentence)
-
-#Predicting Parts of Speech for Each Token: look at each token and try to guess its part of speech — whether it is a noun, a verb, an adjective and so on.#
-
-## partOfSpeech = nltk.pos_tag(tokens)
-
-
-# print(nltk.sent_tokenize(sentence))
-
-#
-# print(tokens)
-# for ss in wordnet.synsets('best'):
-#    print(ss.lemma_names())
+    def get_similiar_synset(self, word_data):
+        return [{word_data.token: synset} for synset in wordnet.synsets(word_data.token) if self.is_synset_similar(word_data.synset, synset)]

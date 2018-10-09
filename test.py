@@ -14,11 +14,8 @@ class TestSynonymSentenceParserMethods(unittest.TestCase):
     def tearDown(self):
         self.synonymSentenceParser = None
 
-    def test_helloWorld(self):
-        self.assertEqual(self.synonymSentenceParser.helloWorld(), 'hello world')
-
-    def test_CreateSentenceWithNewSynonyms(self):
-        self.assertEqual(self.synonymSentenceParser.CreateSentenceWithNewSynonyms(), '')
+    def test_is_word_similarity_acceptable(self):
+        self.assertEqual(self.synonymSentenceParser.is_word_similarity_acceptables(), '')
 
 
 
