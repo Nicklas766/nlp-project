@@ -4,6 +4,7 @@ nltk.download('wordnet')
 nltk.download('averaged_perceptron_tagger')
 from WordnetConverter import WordnetConverter
 from WordData import WordData
+import itertools
 
 
 class SynonymSentenceParser:
@@ -11,6 +12,13 @@ class SynonymSentenceParser:
     """Identifierar verb, adjektiv etc 'viktiga ord' och erbjuder synonymer"""
 
     minAcceptableSimilarity = 0.7
+    dic = {
+        possibleSentences = 0
+        amountOfSynonyms = 0
+        synonyms = {
+
+        }
+    }
 
     def __init__(self, text):
         # Tokenize
@@ -26,6 +34,7 @@ class SynonymSentenceParser:
         print(self.get_synsets(self.synsets))
 
 
+
     def is_synset_similar(self, synset1, synset2):
         try:
             return synset1.wup_similarity(synset2) > self.minAcceptableSimilarity
@@ -33,7 +42,15 @@ class SynonymSentenceParser:
             return False
 
     def get_synsets(self, synsets):
-        return [self.get_similiar_synset(word_data) for word_data in synsets]
+        allSynsetsWithSimiliarSynsets = [self.get_similiar_synset(word_data) for word_data in synsets]
+
+
+
+
+        return allSynsetsWithSimiliarSynsets
 
     def get_similiar_synset(self, word_data):
-        return [{word_data.token: synset} for synset in wordnet.synsets(word_data.token) if self.is_synset_similar(word_data.synset, synset)]
+        return [{word_data.token: self.get_lemmas_name(synset)} for synset in wordnet.synsets(word_data.token) if self.is_synset_similar(word_data.synset, synset)]
+
+    def get_lemmas_name(self, synset):
+        return [lemma.name() for lemma in synset.lemmas()]
