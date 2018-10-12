@@ -2,8 +2,6 @@ import unittest
 
 from project import SynonymSentenceParser
 
-
-
 class TestSynonymSentenceParserMethods(unittest.TestCase):
 
     sentence = "Hello my name is Nicklas, and I love computer science."

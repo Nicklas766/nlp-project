@@ -1,9 +1,10 @@
-from project import SynonymSentenceParser
+
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
-lemmatizer = WordNetLemmatizer();
+
 import nltk
 from nltk.wsd import lesk
+from SynonymSentenceParser import SynonymSentenceParser
 
 
 
