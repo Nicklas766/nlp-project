@@ -7,8 +7,6 @@ from WordData import WordData
 import itertools
 from functools import reduce
 
-def mapWithFunc(func, array):
-    return list(map(lambda curr: func(curr), array))
 
 class SynonymSentenceParser:
     """Changes all the words in a sentence synonyms and sorts them by percentage"""
@@ -51,7 +49,8 @@ class SynonymSentenceParser:
 
     def get_synsets(self, synsets):
         #return list(map(lambda word_data: self.get_similiar_synset(word_data), synsets))
-        return mapWithFunc(self.get_similiar_synset, synsets)
+         return list(map(self.get_similiar_synset, synsets))
+
 
     def get_similiar_synset(self, word_data):
         d = {}
@@ -66,4 +65,4 @@ class SynonymSentenceParser:
         return d
 
     def get_lemmas_name(self, synset):
-        return [lemma.name() for lemma in synset.lemmas()]
+        return list(map(lambda lemma: lemma.name(), synset.lemmas()))
