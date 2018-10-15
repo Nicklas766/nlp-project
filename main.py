@@ -13,6 +13,7 @@ parser = SynonymSentenceParser("Hi people, what is going on?");
 
 
 
+
 # print(wordnet.synsets("good"))
 # w1 = wordnet.synset("good.n.01")
 # w2 = wordnet.synset("well.n.01")

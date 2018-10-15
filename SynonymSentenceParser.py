@@ -5,7 +5,10 @@ nltk.download('averaged_perceptron_tagger')
 from WordnetConverter import WordnetConverter
 from WordData import WordData
 import itertools
+from functools import reduce
 
+def mapWithFunc(func, array):
+    return list(map(lambda curr: func(curr), array))
 
 class SynonymSentenceParser:
     """Changes all the words in a sentence synonyms and sorts them by percentage"""
@@ -13,9 +16,9 @@ class SynonymSentenceParser:
 
     minAcceptableSimilarity = 0.7
     dic = {
-        possibleSentences = 0
-        amountOfSynonyms = 0
-        synonyms = {
+        "possibleSentences": 0,
+        "amountOfSynonyms": 0,
+        "synonyms": {
 
         }
     }
@@ -32,7 +35,12 @@ class SynonymSentenceParser:
 
         # Test methods with print
         print(self.get_synsets(self.synsets))
+        arr = self.get_synsets(self.synsets)
 
+        for curr in arr:
+            for key in curr:
+                for value in curr[key]:
+                    print(text.replace(key, value))
 
 
     def is_synset_similar(self, synset1, synset2):
@@ -42,15 +50,20 @@ class SynonymSentenceParser:
             return False
 
     def get_synsets(self, synsets):
-        allSynsetsWithSimiliarSynsets = [self.get_similiar_synset(word_data) for word_data in synsets]
-
-
-
-
-        return allSynsetsWithSimiliarSynsets
+        #return list(map(lambda word_data: self.get_similiar_synset(word_data), synsets))
+        return mapWithFunc(self.get_similiar_synset, synsets)
 
     def get_similiar_synset(self, word_data):
-        return [{word_data.token: self.get_lemmas_name(synset)} for synset in wordnet.synsets(word_data.token) if self.is_synset_similar(word_data.synset, synset)]
+        d = {}
+        for synset in wordnet.synsets(word_data.token):
+            if self.is_synset_similar(word_data.synset, synset):
+
+                if word_data.token not in d:
+                    d[word_data.token] = []
+
+                d[word_data.token].extend(self.get_lemmas_name(synset) )
+
+        return d
 
     def get_lemmas_name(self, synset):
         return [lemma.name() for lemma in synset.lemmas()]
