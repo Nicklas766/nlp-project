@@ -61,5 +61,6 @@ class SynonymSentenceParser:
             word_data.token: set(lemmas)
         }
 
-    def get_lemmas_name(self, synset):
-        return list(map(lambda lemma: lemma.name(), synset.lemmas()))
+    @staticmethod
+    def get_lemmas_name(synset):
+        return map(lambda lemma: lemma.name(), synset.lemmas())
