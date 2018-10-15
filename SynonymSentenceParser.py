@@ -53,12 +53,12 @@ class SynonymSentenceParser:
 
 
     def get_similiar_synset(self, word_data):
-        synsetsList = list(filter(lambda synset: self.is_synset_similar(word_data.synset, synset), wordnet.synsets(word_data.token)))
-        lemmasNestedList = list(map(self.get_lemmas_name, synsetsList))
+        synsetsList = filter(lambda synset: self.is_synset_similar(word_data.synset, synset), wordnet.synsets(word_data.token))
+        lemmasNestedList = map(self.get_lemmas_name, synsetsList)
         lemmas = [lemma for lemmaList in lemmasNestedList for lemma in lemmaList]
 
         return {
-            word_data.token: list(set(lemmas))
+            word_data.token: set(lemmas)
         }
 
     def get_lemmas_name(self, synset):
