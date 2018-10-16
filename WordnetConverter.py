@@ -4,6 +4,12 @@ from nltk.stem import WordNetLemmatizer
 from WordData import WordData
 
 class WordnetConverter:
+
+    ConversionData = {
+        "synsets": [],
+        "spellingErrors": []
+    }
+
     def penn_to_wordnet(self, tag):
         if tag.startswith('J'):
             return wordnet.ADJ
@@ -16,7 +22,6 @@ class WordnetConverter:
         return None
 
     def get_synset_tokens(self, tagged):
-        synsets = []
         lemmatzr = WordNetLemmatizer()
         for token in tagged:
             wordnet_tag = self.penn_to_wordnet(token[1])
@@ -24,6 +29,12 @@ class WordnetConverter:
                 continue
 
             lemma = lemmatzr.lemmatize(token[0], pos=wordnet_tag)
-            synsets.append(WordData(token[0], wordnet.synsets(lemma, pos=wordnet_tag)[0]))
 
-        return synsets
+            # If it can't append on try it's probably a spelling error
+            try:
+                self.ConversionData["synsets"].append(WordData(token[0], wordnet.synsets(lemma, pos=wordnet_tag)[0]))
+            except:
+                self.ConversionData["spellingErrors"].append(token[0])
+
+
+        return self.ConversionData

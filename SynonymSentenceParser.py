@@ -13,13 +13,6 @@ class SynonymSentenceParser:
     """Identifierar verb, adjektiv etc 'viktiga ord' och erbjuder synonymer"""
 
     minAcceptableSimilarity = 0.7
-    dic = {
-        "possibleSentences": 0,
-        "amountOfSynonyms": 0,
-        "synonyms": {
-
-        }
-    }
 
     def __init__(self, text):
         # Tokenize
@@ -27,18 +20,25 @@ class SynonymSentenceParser:
 
         # Part of Speech
         pos_tag = nltk.pos_tag(self.tokensArray)
+        print(pos_tag)
 
-        # Get synset from part of speech tags
-        self.synsets = WordnetConverter().get_synset_tokens(pos_tag)
+        # Get synset from part of speech tags while also detecting potential
+        # spelling errors
+        ConversionData = WordnetConverter().get_synset_tokens(pos_tag)
+        synsets = ConversionData["synsets"]
+        spellingErrors = ConversionData["spellingErrors"]
+
 
         # Test methods with print
-        print(self.get_synsets(self.synsets))
-        arr = self.get_synsets(self.synsets)
+        #print(self.get_synsets(synsets))
+        arr = self.get_synsets(synsets)
 
         for curr in arr:
             for key in curr:
                 for value in curr[key]:
                     print(text.replace(key, value))
+
+        print("POTENTIAL SPELLING ERRORS FOUND!: ", spellingErrors)
 
 
     def is_synset_similar(self, synset1, synset2):

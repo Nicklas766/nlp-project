@@ -1,17 +1,19 @@
+import nltk
 
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
 
-import nltk
 from nltk.wsd import lesk
 from SynonymSentenceParser import SynonymSentenceParser
 
 
 
 
-parser = SynonymSentenceParser("Hi people, what is going on?");
+# parser = SynonymSentenceParser("Hi people, what is going on?");
 
-
+# parser = SynonymSentenceParser("helo");
+parser = SynonymSentenceParser("I was outsidee running, now I feel pretty goood");
+# parser = SynonymSentenceParser("Jag var ute och sprang i skogen, nu mår jag bra");
 
 
 # print(wordnet.synsets("good"))
