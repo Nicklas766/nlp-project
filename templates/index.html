@@ -1,0 +1,20 @@
+<!-- content -->
+<div style="width: 50%; margin: auto;">
+    <p> Let's change your sentence! </p>
+
+<form action="{{ url_for('post') }}" method="POST">
+  Your text:<br>
+  <textarea name="myString"></textarea>
+
+
+    <li>{{spellingErrors}}</li>
+
+    {% for sentence in newSentences %}
+    <p>{{sentence}}</p>
+    {% endfor %}
+
+
+  <input type="submit" value="Submit">
+</form>
+
+</div>

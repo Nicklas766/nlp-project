@@ -15,6 +15,7 @@ class SynonymSentenceParser:
     minAcceptableSimilarity = 0.7
 
     def __init__(self, text):
+        self.newSentences = []
         # Tokenize
         self.tokensArray = nltk.word_tokenize(text)
 
@@ -36,9 +37,11 @@ class SynonymSentenceParser:
         for curr in arr:
             for key in curr:
                 for value in curr[key]:
+                    self.newSentences.append(text.replace(key, value))
                     print(text.replace(key, value))
 
         print("POTENTIAL SPELLING ERRORS FOUND!: ", spellingErrors)
+        self.spellingErrors = spellingErrors
 
 
     def is_synset_similar(self, synset1, synset2):

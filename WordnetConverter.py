@@ -5,10 +5,11 @@ from WordData import WordData
 
 class WordnetConverter:
 
-    ConversionData = {
-        "synsets": [],
-        "spellingErrors": []
-    }
+    def __init__(self):
+        self.ConversionData = {
+            "synsets": [],
+            "spellingErrors": []
+        }
 
     def penn_to_wordnet(self, tag):
         if tag.startswith('J'):
