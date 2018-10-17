@@ -7,12 +7,18 @@ from nltk.wsd import lesk
 from SynonymSentenceParser import SynonymSentenceParser
 
 
+parser = SynonymSentenceParser("The problem with quotes found on the internet is that they are often not true");
+#parser = SynonymSentenceParser("Hi people, what is going on?");
+#parser = SynonymSentenceParser("Great");
+#parser = SynonymSentenceParser("I am greater than you");
 
+# parser = SynonymSentenceParser("I am currently cooking and I am also angry")
+#print(nltk.pos_tag(nltk.word_tokenize("what is happening?")))
+#print(nltk.pos_tag(nltk.word_tokenize("what is occur?")))
 
-# parser = SynonymSentenceParser("Hi people, what is going on?");
-
+#print(convert("occur", "VBN", "VBG"))
 # parser = SynonymSentenceParser("helo");
-# parser = SynonymSentenceParser("I was outsidee running, now I feel pretty goood");
+# parser = SynonymSentenceParser("I was outside running, now I feel pretty good");
 # parser = SynonymSentenceParser("Jag var ute och sprang i skogen, nu mår jag bra");
 
 

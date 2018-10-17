@@ -6,6 +6,7 @@ from WordnetConverter import WordnetConverter
 from WordData import WordData
 import itertools
 from functools import reduce
+from nltk.wsd import lesk
 
 
 class SynonymSentenceParser:
@@ -34,11 +35,14 @@ class SynonymSentenceParser:
         #print(self.get_synsets(synsets))
         arr = self.get_synsets(synsets)
 
+        ## compare the lemmas similarity
+        print(arr)
         for curr in arr:
             for key in curr:
                 for value in curr[key]:
                     self.newSentences.append(text.replace(key, value))
-                    print(text.replace(key, value))
+                    if nltk.pos_tag(nltk.word_tokenize(key))[0][1] == nltk.pos_tag(nltk.word_tokenize(value))[0][1]:
+                        print(text.replace(key, value))
 
         print("POTENTIAL SPELLING ERRORS FOUND!: ", spellingErrors)
         self.spellingErrors = spellingErrors
@@ -51,7 +55,6 @@ class SynonymSentenceParser:
             return False
 
     def get_synsets(self, synsets):
-        #return list(map(lambda word_data: self.get_similiar_synset(word_data), synsets))
          return list(map(self.get_similiar_synset, synsets))
 
 
@@ -59,6 +62,7 @@ class SynonymSentenceParser:
         synsetsList = filter(lambda synset: self.is_synset_similar(word_data.synset, synset), wordnet.synsets(word_data.token))
         lemmasNestedList = map(self.get_lemmas_name, synsetsList)
         lemmas = [lemma for lemmaList in lemmasNestedList for lemma in lemmaList]
+        #lemmas = map(lambda lemma: lemma.name(), word_data.synset.lemmas())
 
         return {
             word_data.token: set(lemmas)
