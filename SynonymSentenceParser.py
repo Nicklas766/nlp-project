@@ -8,6 +8,15 @@ import itertools
 from functools import reduce
 from nltk.wsd import lesk
 
+def getCorrectForm(correctTag, newTag, word):
+    if correctTag == "NNS" and newTag == "NN":
+        return word + "s"
+    # if correctTag == "JJR" and newTag == "JJ":
+    #     return word + "er"
+    # if correctTag == "JJS" and newTag == "JJ":
+    #     return word + "est"
+    return word
+
 
 class SynonymSentenceParser:
     """Changes all the words in a sentence synonyms and sorts them by percentage"""
@@ -36,16 +45,53 @@ class SynonymSentenceParser:
         arr = self.get_synsets(synsets)
 
         ## compare the lemmas similarity
+        print("THE CORRECT:")
+        print(pos_tag)
         print(arr)
         for curr in arr:
             for key in curr:
                 for value in curr[key]:
-                    self.newSentences.append(text.replace(key, value))
-                    if nltk.pos_tag(nltk.word_tokenize(key))[0][1] == nltk.pos_tag(nltk.word_tokenize(value))[0][1]:
-                        print(text.replace(key, value))
+
+                    # print(text.replace(key, value))
+                    #if nltk.pos_tag(nltk.word_tokenize(key))[0][1] == nltk.pos_tag(nltk.word_tokenize(value))[0][1]:
+                    newSentence = text.replace(key, value)
+                    newSentence = self.update_some_words(pos_tag, newSentence)
+
+                    if self.is_syntax_acceptable(pos_tag, newSentence):
+                        self.newSentences.append(newSentence)
+                        print(newSentence)
+
 
         print("POTENTIAL SPELLING ERRORS FOUND!: ", spellingErrors)
         self.spellingErrors = spellingErrors
+        self.newSentences = set(self.newSentences)
+
+    @staticmethod
+    def update_some_words(orginialPosTags, newSentence):
+        tokenizeNew =  nltk.word_tokenize(newSentence)
+        newSentence = nltk.pos_tag(tokenizeNew)
+        #print(newSentence)
+        sentence = ""
+        for tag1, tag2 in zip(newSentence, orginialPosTags):
+            sentence += " " + getCorrectForm(tag2[1], tag1[1], tag1[0])
+
+        return sentence
+
+    @staticmethod
+    def is_syntax_acceptable(orginialPosTags, newSentence):
+        tokenizeNew =  nltk.word_tokenize(newSentence)
+        newSentence = nltk.pos_tag(tokenizeNew)
+        print(newSentence)
+        for tag1, tag2 in zip(newSentence, orginialPosTags):
+            if (tag2[1] == 'VBN' and tag1[1] != 'VBN'):
+                return False
+            if (tag2[1] == 'NNS' and tag1[1] == 'NN'):
+                return False
+            if (tag2[1] == 'VBZ' and tag1[1] == 'VB'):
+                return False
+            if (tag2[1].startswith('V') and (tag1[1].startswith('V') == False)):
+                return False
+        return True
 
 
     def is_synset_similar(self, synset1, synset2):
@@ -70,4 +116,12 @@ class SynonymSentenceParser:
 
     @staticmethod
     def get_lemmas_name(synset):
+        # lemmas = []
+        # for lemma in synset.lemmas():
+        #     if len(lemma.derivationally_related_forms()) > 0:
+        #         for newLemma in lemma.derivationally_related_forms():
+        #             lemmas.append(newLemma)
+        #     lemmas.append(lemma)
+        #lemmas = map(lambda lemma: lemma.derivationally_related_forms(), synset.lemmas())
+
         return map(lambda lemma: lemma.name(), synset.lemmas())

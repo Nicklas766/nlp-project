@@ -6,13 +6,14 @@ from nltk.corpus import wordnet
 from nltk.wsd import lesk
 from SynonymSentenceParser import SynonymSentenceParser
 
+#parser = SynonymSentenceParser("Im going to meet with my friend");
 
-parser = SynonymSentenceParser("The problem with quotes found on the internet is that they are often not true");
+parser = SynonymSentenceParser("My greatest achievement is my beloved friends");
 #parser = SynonymSentenceParser("Hi people, what is going on?");
 #parser = SynonymSentenceParser("Great");
 #parser = SynonymSentenceParser("I am greater than you");
 
-# parser = SynonymSentenceParser("I am currently cooking and I am also angry")
+#parser = SynonymSentenceParser("I am currently cooking and I am also angry")
 #print(nltk.pos_tag(nltk.word_tokenize("what is happening?")))
 #print(nltk.pos_tag(nltk.word_tokenize("what is occur?")))
 

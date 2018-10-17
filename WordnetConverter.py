@@ -33,7 +33,7 @@ class WordnetConverter:
 
             # If it can't append on try it's probably a spelling error
             try:
-                self.ConversionData["synsets"].append(WordData(token[0], wordnet.synsets(token[0], pos=wordnet_tag)[0]))
+                self.ConversionData["synsets"].append(WordData(token[0], wordnet.synsets(lemma, pos=wordnet_tag)[0]))
             except:
                 self.ConversionData["spellingErrors"].append(token[0])
 
