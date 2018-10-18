@@ -7,16 +7,12 @@ from WordData import WordData
 import itertools
 from functools import reduce
 from nltk.wsd import lesk
+from Plurify import Plurify
 
 def getCorrectForm(correctTag, newTag, word):
     if correctTag == "NNS" and newTag == "NN":
-        return word + "s"
-    # if correctTag == "JJR" and newTag == "JJ":
-    #     return word + "er"
-    # if correctTag == "JJS" and newTag == "JJ":
-    #     return word + "est"
+        return Plurify().getPluralForm(word)
     return word
-
 
 class SynonymSentenceParser:
     """Changes all the words in a sentence synonyms and sorts them by percentage"""
@@ -55,6 +51,7 @@ class SynonymSentenceParser:
                     # print(text.replace(key, value))
                     #if nltk.pos_tag(nltk.word_tokenize(key))[0][1] == nltk.pos_tag(nltk.word_tokenize(value))[0][1]:
                     newSentence = text.replace(key, value)
+                    print(newSentence)
                     newSentence = self.update_some_words(pos_tag, newSentence)
 
                     if self.is_syntax_acceptable(pos_tag, newSentence):
@@ -70,6 +67,7 @@ class SynonymSentenceParser:
     def update_some_words(orginialPosTags, newSentence):
         tokenizeNew =  nltk.word_tokenize(newSentence)
         newSentence = nltk.pos_tag(tokenizeNew)
+        print(newSentence)
         #print(newSentence)
         sentence = ""
         for tag1, tag2 in zip(newSentence, orginialPosTags):
