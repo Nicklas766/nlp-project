@@ -44,10 +44,6 @@ class TestPlurifyMethods(unittest.TestCase):
         correctWordForm = "knives"
         self.assertEqual(returnedWordForm, correctWordForm)
 
-        returnedWordForm = Plurify().getPluralForm("quiz")
-        correctWordForm = "quizzes"
-        self.assertEqual(returnedWordForm, correctWordForm)
-
         returnedWordForm = Plurify().getPluralForm("roof")
         correctWordForm = "roofs"
         self.assertEqual(returnedWordForm, correctWordForm)
@@ -112,6 +108,13 @@ class TestPlurifyMethods(unittest.TestCase):
         returnedWordForm = Plurify().getPluralForm("photo")
         correctWordForm = "photos"
         self.assertEqual(returnedWordForm, correctWordForm)
+
+    def test_plural_forms_that_end_with_is(self):
+        # Should pass
+        returnedWordForm = Plurify().getPluralForm("analysis")
+        correctWordForm = "analyses"
+        self.assertEqual(returnedWordForm, correctWordForm)
+
 
 
 if __name__ == '__main__':

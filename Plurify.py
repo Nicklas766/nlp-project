@@ -22,53 +22,57 @@ class Plurify:
     consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "x", "z"]
 
     def __init__(self):
-        with open('./data/irregular.json') as f:
-            self.irregularNouns = json.load(f)
+        # with open('./data/irregular.json') as f:
+        #     self.irregularNouns = json.load(f)
 
         with open('./data/exceptions.json') as f:
             self.exceptionNouns = json.load(f)
 
-    def isIrregularNoun(self, word):
-        return word in self.irregularNouns
-    def isExceptionNoun(self, word):
-        return word in self.exceptionNouns
+    # def isIrregularNoun(self, word):
+    #     return word in self.irregularNouns
+    # def isExceptionNoun(self, word):
+    #     return word in self.exceptionNouns
 
     def getPluralForm(self, word):
+        vowels = self.vowels
+        consonants = self.consonants
+        # if self.isIrregularNoun(word):
+        #     return self.irregularNouns[word]
 
-        if self.isIrregularNoun(word):
-            return self.irregularNouns[word]
+        # if self.isExceptionNoun(word):
+        #     return self.exceptionNouns[word]
 
-        if self.isExceptionNoun(word):
-            return self.exceptionNouns[word]
+        # ID-7. Ends in VOWEL + O
+        if word.endswith("o") and word[-2:][0] in vowels:
+            return word + "s"
 
-        # Ends in S, CH, SH, X or Z
+        # ID-2: Ends in consonants + Y
+        if word.endswith("y") and word[-2:][0] in consonants:
+            return word[:-1] + "ies"
+
+        # ID-9: Ends in -IS
+        if word.endswith("is"):
+            return word[:-2] + "es"
+
+        # ID-3: Ends in S, CH, SH, X or Z
         if word.endswith("s") or word.endswith("ch") or word.endswith("sh") or word.endswith("x") or word.endswith("z"):
-            if word.endswith("z"):
-                return word + "zes"
             return word + "es"
 
-        # Ends in F or FE
+        # ID-4: Ends in F or FE
         if word.endswith("f") or word.endswith("fe"):
+            #ID-5 Ends in two vowels plus -f
+            if word.endswith("oof") or word.endswith("ief") or word.endswith("ff"):
+                return word + "s"
             if word.endswith("f"):
                 return word[:-1] + "ves"
             if word.endswith("fe"):
                 return word[:-2] + "ves"
 
-        # 1. Ends in VOWEL + Y
-        if word.endswith("y") and word[-2:][0] in self.vowels:
-            return word + "s"
 
-        # 1. Ends in consonants + Y
-        if word.endswith("y") and word[-2:][0] in self.consonants:
-            return word[:-1] + "ies"
 
-        # 1. Ends in VOWEL + O
-        if word.endswith("o") and word[-2:][0] in self.vowels:
-            return word + "s"
+        # ID-. Ends in consonants + O
+        # if word.endswith("o") and word[-2:][0] in consonants:
+        #     return word + "es"
 
-        # 1. Ends in consonants + O
-        if word.endswith("o") and word[-2:][0] in self.consonants:
-            return word + "es"
-
-        # 1. Regular Noun
+        # ID-1: Most nouns
         return word + "s"
