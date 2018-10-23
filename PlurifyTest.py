@@ -115,6 +115,11 @@ class TestPlurifyMethods(unittest.TestCase):
         correctWordForm = "analyses"
         self.assertEqual(returnedWordForm, correctWordForm)
 
+        # Should pass
+        returnedWordForm = Plurify().getPluralForm("metropolis")
+        correctWordForm = "metropolises"
+        self.assertEqual(returnedWordForm, correctWordForm)
+
 
 
 if __name__ == '__main__':

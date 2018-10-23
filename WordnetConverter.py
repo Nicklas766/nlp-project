@@ -16,10 +16,10 @@ class WordnetConverter:
             return wordnet.ADJ
         elif tag.startswith('N'):
             return wordnet.NOUN
-        elif tag.startswith('R'):
-            return wordnet.ADV
-        elif tag.startswith('V'):
-            return wordnet.VERB
+        # elif tag.startswith('R'):
+        #      return wordnet.ADV
+        # elif tag.startswith('V'):
+        #      return wordnet.VERB
         return None
 
     def get_synset_tokens(self, tagged):

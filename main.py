@@ -7,9 +7,16 @@ from nltk.wsd import lesk
 from SynonymSentenceParser import SynonymSentenceParser
 
 
-# parser = SynonymSentenceParser("Hi friends");
-# parser = SynonymSentenceParser("Let us meet up with my other friends in their respective cities");
+#parser = SynonymSentenceParser("I like my friends");
+#parser = SynonymSentenceParser("I would like to visit many different cities");
+parser = SynonymSentenceParser("Cats have nine lives");
 
+#parser = SynonymSentenceParser("I know many chiefs");
+#parser = SynonymSentenceParser("You can create guacamole with some avocados");
+#parser = SynonymSentenceParser("I own many stereos");
+
+# parser = SynonymSentenceParser("I have many stereos");
+# parser = SynonymSentenceParser("Let us meet up with my other friends in their respective cities");
 #parser = SynonymSentenceParser("My greatest achievement is my beloved friends");
 #parser = SynonymSentenceParser("Hi people, what is going on?");
 #parser = SynonymSentenceParser("Great");

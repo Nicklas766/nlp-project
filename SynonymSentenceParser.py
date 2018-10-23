@@ -12,6 +12,8 @@ from Plurify import Plurify
 def getCorrectForm(correctTag, newTag, word):
     if correctTag == "NNS" and newTag == "NN":
         return Plurify().getPluralForm(word)
+    if correctTag == "NNS" and newTag == "JJ":
+        return Plurify().getPluralForm(word)
     return word
 
 class SynonymSentenceParser:
@@ -51,7 +53,7 @@ class SynonymSentenceParser:
                     # print(text.replace(key, value))
                     #if nltk.pos_tag(nltk.word_tokenize(key))[0][1] == nltk.pos_tag(nltk.word_tokenize(value))[0][1]:
                     newSentence = text.replace(key, value)
-                    print(newSentence)
+                    #print(newSentence)
                     newSentence = self.update_some_words(pos_tag, newSentence)
 
                     if self.is_syntax_acceptable(pos_tag, newSentence):
@@ -67,7 +69,6 @@ class SynonymSentenceParser:
     def update_some_words(orginialPosTags, newSentence):
         tokenizeNew =  nltk.word_tokenize(newSentence)
         newSentence = nltk.pos_tag(tokenizeNew)
-        print(newSentence)
         #print(newSentence)
         sentence = ""
         for tag1, tag2 in zip(newSentence, orginialPosTags):
@@ -79,7 +80,7 @@ class SynonymSentenceParser:
     def is_syntax_acceptable(orginialPosTags, newSentence):
         tokenizeNew =  nltk.word_tokenize(newSentence)
         newSentence = nltk.pos_tag(tokenizeNew)
-        print(newSentence)
+        #print(newSentence)
         for tag1, tag2 in zip(newSentence, orginialPosTags):
             if (tag2[1] == 'VBN' and tag1[1] != 'VBN'):
                 return False
@@ -114,12 +115,4 @@ class SynonymSentenceParser:
 
     @staticmethod
     def get_lemmas_name(synset):
-        # lemmas = []
-        # for lemma in synset.lemmas():
-        #     if len(lemma.derivationally_related_forms()) > 0:
-        #         for newLemma in lemma.derivationally_related_forms():
-        #             lemmas.append(newLemma)
-        #     lemmas.append(lemma)
-        #lemmas = map(lambda lemma: lemma.derivationally_related_forms(), synset.lemmas())
-
         return map(lambda lemma: lemma.name(), synset.lemmas())
