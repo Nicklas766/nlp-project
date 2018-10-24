@@ -50,8 +50,6 @@ class SynonymSentenceParser:
             for key in curr:
                 for value in curr[key]:
 
-                    # print(text.replace(key, value))
-                    #if nltk.pos_tag(nltk.word_tokenize(key))[0][1] == nltk.pos_tag(nltk.word_tokenize(value))[0][1]:
                     newSentence = text.replace(key, value)
                     #print(newSentence)
                     newSentence = self.update_some_words(pos_tag, newSentence)

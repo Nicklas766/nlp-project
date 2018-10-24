@@ -1,12 +1,19 @@
 <!-- content -->
+<head>
+    <title>Hem</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+</head>
+
+
 <div style="width: 50%; margin: auto;">
-    <p> Let's change your sentence! </p>
+    <h1> Let's change your sentence! </h1>
 
 <form action="{{ url_for('post') }}" method="POST">
   Your text:<br>
   <textarea name="myString"></textarea>
-
-
+  <input type="submit" value="Submit">
+</form>
     <li>{{spellingErrors}}</li>
 
     {% for sentence in newSentences %}
@@ -14,7 +21,5 @@
     {% endfor %}
 
 
-  <input type="submit" value="Submit">
-</form>
 
 </div>
