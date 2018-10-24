@@ -17,8 +17,7 @@ def getCorrectForm(correctTag, newTag, word):
     return word
 
 class SynonymSentenceParser:
-    """Changes all the words in a sentence synonyms and sorts them by percentage"""
-    """Identifierar verb, adjektiv etc 'viktiga ord' och erbjuder synonymer"""
+    """Changes all the words in a sentence synonyms and makes sure NN tags are NNS"""
 
     minAcceptableSimilarity = 0.7
 
