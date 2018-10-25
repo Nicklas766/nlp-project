@@ -20,7 +20,7 @@ class SynonymSentenceParser:
     """Changes all the words in a sentence synonyms and sorts them by percentage"""
     """Identifierar verb, adjektiv etc 'viktiga ord' och erbjuder synonymer"""
 
-    minAcceptableSimilarity = 0.7
+    minAcceptableSimilarity = 0.1
 
     def __init__(self, text):
         self.newSentences = []
