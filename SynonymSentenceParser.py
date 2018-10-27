@@ -8,6 +8,7 @@ import itertools
 from functools import reduce
 from nltk.wsd import lesk
 from Plurify import Plurify
+from AppendToJson import AppendToJson
 
 def getCorrectForm(correctTag, newTag, word):
     if correctTag == "NNS" and newTag == "NN":
@@ -19,10 +20,11 @@ def getCorrectForm(correctTag, newTag, word):
 class SynonymSentenceParser:
     """Changes all the words in a sentence synonyms and makes sure NN tags are NNS"""
 
-    minAcceptableSimilarity = 0.1
+    minAcceptableSimilarity = 0.7
 
     def __init__(self, text):
         self.newSentences = []
+        AppendToJson.saveSentenceToJsonFile(text)
         # Tokenize
         self.tokensArray = nltk.word_tokenize(text)
 

@@ -51,4 +51,5 @@ def internal_server_error(e):
     return "<p>Flask 500<pre>" + traceback.format_exc()
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0', port=80)
+
