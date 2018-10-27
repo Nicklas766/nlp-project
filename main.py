@@ -12,10 +12,10 @@ from SynonymSentenceParser import SynonymSentenceParser
 #parser = SynonymSentenceParser("Cats have nine lives");
 #parser = SynonymSentenceParser("Samwise likes potatoes");
 #parser = SynonymSentenceParser("I know many chiefs");
-parser = SynonymSentenceParser("You can create guacamole with some avocados");
+#parser = SynonymSentenceParser("You can create guacamole with some avocados");
 #parser = SynonymSentenceParser("Humans rule the world");
 #parser = SynonymSentenceParser("I own many stereos");
-
+parser = SynonymSentenceParser("Hi guys");
 # parser = SynonymSentenceParser("I have many stereos");
 # parser = SynonymSentenceParser("Let us meet up with my other friends in their respective cities");
 #parser = SynonymSentenceParser("My greatest achievement is my beloved friends");

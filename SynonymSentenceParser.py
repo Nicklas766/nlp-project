@@ -47,17 +47,17 @@ class SynonymSentenceParser:
         print("THE CORRECT:")
         print(pos_tag)
         print(arr)
+
         for curr in arr:
             for key in curr:
                 for value in curr[key]:
 
                     newSentence = text.replace(key, value)
-                    #print(newSentence)
                     newSentence = self.update_some_words(pos_tag, newSentence)
 
                     if self.is_syntax_acceptable(pos_tag, newSentence):
                         self.newSentences.append(newSentence)
-                        print(newSentence)
+                        #print(newSentence)
 
 
         print("POTENTIAL SPELLING ERRORS FOUND!: ", spellingErrors)
@@ -66,7 +66,7 @@ class SynonymSentenceParser:
 
     @staticmethod
     def update_some_words(orginialPosTags, newSentence):
-        tokenizeNew =  nltk.word_tokenize(newSentence)
+        tokenizeNew = nltk.word_tokenize(newSentence)
         newSentence = nltk.pos_tag(tokenizeNew)
         #print(newSentence)
         sentence = ""
