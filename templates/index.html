@@ -1,37 +1,82 @@
 <!-- content -->
+
 <head>
-    <title>Hem</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124061670-2"></script>
-    <script>
+  <title>Hem</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Spicy+Rice" rel="stylesheet">
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124061670-2"></script>
+  <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
     gtag('js', new Date());
 
     gtag('config', 'UA-124061670-2');
-    </script>
+  </script>
 </head>
 
 
-<div class="container">
+<div class="container" style="font-size:1.25em; box-shadow: inset 1px 1px 400px 1px #FBFEB7;     color: white;">
+
+  <div style="box-shadow: inset 1px 1px 60px 1px #9d50bb;">
+
+
+
     <h1>Let's change your sentence! </h1>
-    <p>It can take a couple seconds..</p>
+    <p class="hvr-buzz">It's like magic! <i style="color:purple;" class="fas fa-hat-wizard"></i></p>
 
-    <form action="{{ url_for('post') }}" method="POST">
-        Your sentence:<br>
-    <textarea name="myString"></textarea>
-    <input type="submit" value="Submit">
-    </form>
+    <!-- <p>Depending on how big your sentence is the longer I will work!</p> -->
 
+    <div style="width:100%; display: flex; flex-wrap: wrap;">
+      <form style="width: 100%;" action="{{ url_for('post') }}" method="POST">
 
-    <li>{{spellingErrors}}</li>
+        <textarea name="myString"></textarea>
 
-    {% for sentence in newSentences %}
-    <p>{{sentence}}</p>
-    {% endfor %}
+        <button type="submit">Change! <i class="fas fa-magic"></i></button>
+
+      </form>
 
 
+      <!-- RESULT -->
 
+      <div style="width: 80%; color: black;">
+
+        {% if not newSentences %}
+        <div style="font-size: 1em;" class="speech-bubble">Type something and let's see what I can find</div>
+        {% endif %}
+
+        {% if newSentences %}
+
+        <div class="speech-bubble">Right, so I found {{newSentences|length}} alternatives, hopefully you like them..</div>
+        <div style="width: 100%;">
+
+
+          <ul style="margin:5% 25%; width: 70%; text-align: left;">
+          {% for sentence in newSentences %}
+          <li>{{sentence}}</li>
+          {% endfor %}
+          </ul>
+        </div>
+
+        <li>{{spellingErrors}}</li>
+        <p>Your sentence was: {{inputString}}</p>
+        <p> Let us know if the wizard is actually giving you valuable information or not!</p>
+        <button><i class="far fa-thumbs-up"></i></button>
+        <button><i class="far fa-thumbs-down"></i></button>
+        {% endif %}
+
+      </div>
+
+      <div style="width:20%;">
+        <img style="width:100%; margin: right;" src="{{ url_for('static',filename='wizard.png') }}">
+      </div>
+    </div>
+  </div>
 </div>

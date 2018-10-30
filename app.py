@@ -30,7 +30,7 @@ def post():
         newParser = SynonymSentenceParser(string)
         spellingErrors = ', '.join(newParser.spellingErrors)
         newSentences = newParser.newSentences
-        return render_template("index.html", spellingErrors=', '.join(spellingErrors), newSentences=newSentences)
+        return render_template("index.html", spellingErrors=', '.join(spellingErrors), newSentences=newSentences, inputString=string)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -52,4 +52,3 @@ def internal_server_error(e):
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
-
